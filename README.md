@@ -1,4 +1,4 @@
-# Multi Game App
+# Game Together
 
 > 🇷🇺 Русская версия ниже • English version below
 
