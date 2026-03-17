@@ -1,109 +1,84 @@
-# Game Together
+# GameTogether
 
-> 🇷🇺 Русская версия ниже • English version below
+Local multiplayer party game platform built with `Flutter`.
 
-## 🇬🇧 Description
+`GameTogether` is designed around a host-and-join flow: the host launches the game on desktop, a local server exposes a join link, and players connect from their phones by scanning a QR code in the browser. The project is structured as a platform for multiple mini-games rather than a single game.
 
-A local multiplayer game platform where the **host** runs the game on a PC/desktop and **players** join from their smartphones **via QR code** in a browser.  
-No installs — just scan and play.
+## Core Idea
 
-> **Status:** in active development. Connection is currently verified on Android and desktop web. iOS support is in progress. New mini-games will be added gradually.
+- host runs the experience on desktop
+- players join instantly from mobile browsers
+- connection happens over local network
+- game sessions are synchronized in real time
+- new mini-games can be added into the same platform
 
-### 🔹 How It Works
-1. Host runs the game on a PC (Windows desktop build).
-2. The host starts a local HTTP/WebSocket server and displays a QR code with the join address (IP + port).
-3. Players scan the QR code with their phone camera.
-4. The link opens in the phone's browser, loading the web version of the game.
-5. Player names are automatically generated as `Player {timestamp}`.
-6. The host screen updates the number of connected players in real time.
+## Current Capabilities
 
-### 🔹 Current Logic
-- Connected players are stored in `_connectedPlayers` in `connection_controller.dart`.
-- Real-time synchronization via WebSocket.
-- Player screens are implemented for the web in `player_game_screen_web.dart`.
-- Modular structure to easily add new mini-games.
+- QR-based player onboarding
+- local HTTP and WebSocket connection flow
+- browser-based player entry point
+- real-time player count and session state
+- modular game selection from the home screen
+- active mini-game implementations already present in the codebase
 
-### 🔹 Running
-**Host (PC):**
+## Included Game Areas
+
+- connection and lobby flow
+- `slepoy_hudojnic` party drawing game
+- `chestnaya_nastolka` board-game style module
+
+## Tech Stack
+
+- Flutter
+- Dart
+- Provider
+- WebSocket
+- Shelf
+- qr_flutter
+- audioplayers
+
+## Architecture Overview
+
+```text
+lib/
+  features/home/                game selection and host entry
+  features/connection/          QR flow, network connection, lobby logic
+  features/player/              mobile browser player interface
+  games/slepoy_hudojnic/        drawing game module
+  games/chestnaya_nastolka/     board game module
+  core/                         shared configuration
+```
+
+## Run the Host
+
 ```bash
+flutter pub get
 flutter run -d windows
 ```
 
-**Player (phone):**
-- Must be on the same local network as the host.
-- Scans the QR code displayed on the host screen.
-- Opens the link in a browser.
+## Join as a Player
 
-**Build for Web:**
+1. Connect the phone to the same local network as the host device.
+2. Scan the QR code shown on the host screen.
+3. Open the generated browser link.
+4. Join the current session from the mobile web interface.
+
+## Other Commands
+
 ```bash
+flutter run -d chrome
 flutter build web
-```
-Output will be in `build/web/` — deploy to any static hosting or run locally.
-
-### 🔹 Plans
-- Full iOS browser support.
-- Additional mini-games (quiz, drawing, reaction, etc.).
-- Room code system.
-- Improved connection stability and error handling.
-
-### 📂 Main Files
-```
-lib/
- ├─ connection_controller.dart    # connection management
- ├─ player_game_screen.dart       # platform-specific entry point
- ├─ player_game_screen_web.dart   # player UI for web
+flutter test
 ```
 
----
+## Status
 
-## 🇷🇺 Описание
+Active prototype platform with real networking flow and multiple game modules already started. Best suited for experimentation, local party sessions, and further product expansion.
 
-Локальная мультиплеерная платформа, где **хост** запускает игру на ПК/десктопе, а **игроки** подключаются со смартфонов **по QR-коду** через браузер.  
-Никаких установок — просто сканируй и играй.
+## Roadmap Direction
 
-> **Статус:** активная разработка. Подключение проверено на Android и десктопном вебе. Поддержка iOS в процессе. Новые мини-игры будут добавляться постепенно.
-
-### 🔹 Как это работает
-1. Хост запускает игру на ПК (Windows desktop).
-2. При старте поднимается локальный HTTP/WebSocket сервер и на экране показывается QR-код с адресом подключения (IP + порт).
-3. Игроки сканируют QR-код камерой телефона.
-4. Ссылка открывается в браузере телефона, загружая веб-версию игры.
-5. Имя игрока создаётся автоматически в формате `Игрок {временная метка}`.
-6. Количество подключённых отображается на экране хоста в реальном времени.
-
-### 🔹 Текущая логика
-- Список подключённых игроков хранится в `_connectedPlayers` (`connection_controller.dart`).
-- Синхронизация в реальном времени через WebSocket.
-- Экран игрока реализован для веба в `player_game_screen_web.dart`.
-- Модульная архитектура — легко добавлять новые мини-игры.
-
-### 🔹 Запуск
-**Хост (ПК):**
-```bash
-flutter run -d windows
-```
-
-**Игрок (телефон):**
-- Должен находиться в одной сети с хостом.
-- Сканирует QR-код с экрана хоста.
-- Открывает ссылку в браузере.
-
-**Сборка для Web:**
-```bash
-flutter build web
-```
-Результат будет в `build/web/` — можно загрузить на хостинг или запустить локально.
-
-### 🔹 Планы
-- Полная поддержка браузеров на iOS.
-- Дополнительные мини-игры (викторины, рисовалки, реакция и т.д.).
-- Система кодов комнат.
-- Улучшение стабильности соединений и обработки ошибок.
-
-### 📂 Основные файлы
-```
-lib/
- ├─ connection_controller.dart    # управление подключениями
- ├─ player_game_screen.dart       # выбор платформенной реализации
- ├─ player_game_screen_web.dart   # интерфейс игрока для веба
-```
+- better connection resilience
+- broader iOS browser support
+- additional mini-games
+- stronger room/session management
+- more polished host controls and player feedback
